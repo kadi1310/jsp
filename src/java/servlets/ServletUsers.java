@@ -5,7 +5,10 @@
 package servlets;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -27,7 +30,7 @@ import utilisateurs.modeles.User;
 @WebServlet(name = "ServletUsers",
      urlPatterns = {"/ServletUsers"},
      initParams = {
-         @WebInitParam(name = "ressourceDir", value = "C:\\Users\\coulibaly barah\\Documents\\NetBeansProjects\\TP\\jsp")
+         @WebInitParam(name = "ressourceDir", value = "C:\\Users\\coulibaly barah\\Documents\\NetBeansProjects\\jsp")
      }
 )
 public class ServletUsers extends HttpServlet {
@@ -63,7 +66,26 @@ public class ServletUsers extends HttpServlet {
                 request.setAttribute("listeDesUsers", liste);
                 forwardTo = "index.jsp?action=listerLesUtilisateurs";
                 message = "Liste des utilisateurs";
-            } else {
+            } 
+            
+            else if(action.equals("creerUtilisateursDeTest")){
+                createUtilisateurDeTest();
+                Collection<User> liste = Server.uh.getUsers();
+                request.setAttribute("listeDesUsers", liste);
+                
+                forwardTo = "index.jsp?action=listerLesUtilisateurs";
+                
+                message = "les trois nouveaux utilisateurs ont été crée";
+            }
+            
+             else if (action.equals("creerUnUtilisateur")) {
+                creerUtilisateur(request);
+                Collection<User> liste = Server.uh.getUsers();
+                request.setAttribute("listeDesUsers", liste);
+                forwardTo = "index.jsp?action=listerLesUtilisateurs";
+                message = "Tout est bien !";
+            }     
+            else {
                 forwardTo = "index.jsp?action=todo";
                 message = "La fonctionnalité pour le paramètre " + action + " est à implémenter !";
             }
@@ -72,6 +94,38 @@ public class ServletUsers extends HttpServlet {
         RequestDispatcher dp = request.getRequestDispatcher(forwardTo + "&message=" + message);
         dp.forward(request, response);
         // Après un forward, plus rien ne peut être exécuté après !
+
+    }
+    
+    
+    private void createUtilisateurDeTest(){
+        
+        try {
+            User user1 = new User("C01","barah","coulibaly");
+            User user2 = new User("C02","Kadi","coulibaly");
+            User user3 = new User("C03","diatou","coulibaly");
+            Server.uh.addUser(user1);
+            Server.uh.addUser(user2);
+            Server.uh.addUser(user3);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(ServletUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }
+    
+    public void creerUtilisateur(HttpServletRequest request) {
+        String login, nom, prenom;
+        nom = request.getParameter("nom");
+        prenom = request.getParameter("prenom");
+        login = request.getParameter("login");
+        try {
+            User user = new User(login, nom, prenom);
+            Server.uh.addUser(user);
+            
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(ServletUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
