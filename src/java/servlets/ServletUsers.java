@@ -102,7 +102,14 @@ public class ServletUsers extends HttpServlet {
                 forwardTo = "index.jsp?action=listerLesUtilisateurs";
                 message = "tout est bien";
             }
-            
+             else if (action.equals("deleteParLogin")) {
+                 supprimerUtilisateur(request);
+                ArrayList<User> liste = new ArrayList<User>();
+                
+                request.setAttribute("listeDesUsers", liste);
+                forwardTo = "index.jsp?action=listerLesUtilisateurs";
+                message = "tout est bien";
+            }
               
             else {
                 forwardTo = "index.jsp?action=todo";
@@ -169,7 +176,20 @@ public class ServletUsers extends HttpServlet {
         }
     }
     
-    
+    public void supprimerUtilisateur(HttpServletRequest request) {
+       String login, nom, prenom;
+        nom = request.getParameter("nom");
+        prenom = request.getParameter("prenom");
+        login = request.getParameter("login");
+        try {
+            User user = new User(login, nom, prenom);
+            Server.uh.removeUserFromLogin(user.getLogin());
+            
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(ServletUsers.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+   }
     
     
 
