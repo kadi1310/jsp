@@ -14,6 +14,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link type="text/css" rel="stylesheet" href="styleCss.css" />
         <title>Gestionnaire d'utilisateurs</title>
     </head>
     <body>
@@ -28,40 +29,41 @@
 
         <h2>Menu de gestion des utilisateurs</h2>
         <ul>
-            <li><a href="ServletUsers?action=listerLesUtilisateurs">Afficher/raffraichir la liste de tous les utilisateurs</a></li>
+            <li><h2><a href="ServletUsers?action=listerLesUtilisateurs">Afficher/raffraichir la liste de tous les utilisateurs</a></h2></li>
             <p>
         </ul>
-            <h2>Liste des fonctionnalités à implémenter dans la Servlet (note : après chaque action cette page sera
-                rappelée par la servlet avec la liste des utilisateurs raffraichie et un message de confirmation</h2>
+            <!--<h2>Liste des fonctionnalités à implémenter dans la Servlet (note : après chaque action cette page sera
+                rappelée par la servlet avec la liste des utilisateurs raffraichie et un message de confirmation</h2>-->
         <ol>
-            <li><a href="ServletUsers?action=creerUtilisateursDeTest">Créer 4 utilisateurs de test</a></li>
+            <li><h3><a href="ServletUsers?action=creerUtilisateursDeTest">Créer 4 utilisateurs de test</a></h3></li>
 
-            <li>Créer un utilisateur</li>
+            <li><h3>Créer un utilisateur</h3></li>
             <form action="ServletUsers" method="get">
-                Nom : <input type="text" name="nom"/><br>
-                Prénom : <input type="text" name="prenom"/><br>
-                Login : <input type="text" name="login"/><br>
+                <label>Nom : </label><input type="text" name="nom"/><br>
+                <label>Prénom :</label ><input type="text" name="prenom"/><br>
+                <label> Login :</label> <input type="text" name="login"/><br>
                 <!-- Astuce pour passer des paramètres à une servlet depuis un formulaire JSP !-->
                 <input type="hidden" name="action" value="creerUnUtilisateur"/>
                 <input type="submit" value="Créer l'utilisateur" name="submit"/>
             </form>
 
-            <li>Afficher les détails d'un utilisateur</li>
+            <li><h3>Afficher les détails d'un utilisateur</h3></li>
             <form action="ServletUsers" method="get">
-                login : <input type="text" name="login"/><br>
+                <label>login : </label><input type="text" name="login"/><br>
                 <input type="hidden" name="action" value="chercherParLogin"/>
                 <input type="submit" value="Chercher" name="submit"/>
             </form>
 
 
-            <li>Modifier les détails d'un utilisateur :</li>
+            <li><h3>Modifier les détails d'un utilisateur :</h3></li>
             <form action="ServletUsers" method="get">
-                Login : <input type="text" name="login"/><br>
-                Nom : <input type="text" name="nom"/><br>
-                Prénom : <input type="text" name="prenom"/><br>
+                <label> Login :</label> <input type="text" name="login"/><br>
+                <label> Nom : </label><input type="text" name="nom"/><br>
+                <label> Prénom :</label><input type="text" name="prenom"/><br>
                 <input type="hidden" name="action" value="updateUtilisateur"/>
                 <input type="submit" value="Mettre à jour" name="submit"/>
             </form>
+             
         </ol>
 
         <!-- Fin du menu -->
@@ -76,6 +78,7 @@
                     <td><b>Login</b></td>
                     <td><b>Nom</b></td>
                     <td><b>Prénom</b></td>
+                    <!--<td><b>Supprimer un utilisateur</b></td>-->
                 </tr>
 
                 <!-- Ici on affiche les lignes, une par utilisateur -->
@@ -87,6 +90,7 @@
                         <td>${u.login}</td>
                         <td>${u.firstName}</td>
                         <td>${u.lastName}</td>
+                        
                         <!-- On compte le nombre de users -->
                         <c:set var="total" value="${total+1}"/>
                     </tr>
